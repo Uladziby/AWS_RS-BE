@@ -1,3 +1,4 @@
 /** @format */
 
-export { default as getProductList } from "./hello";
+export { default as getProductList } from "./getProductList";
+export { default as getProductById } from "../functions/getProductById";
