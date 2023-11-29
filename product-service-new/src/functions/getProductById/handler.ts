@@ -4,7 +4,7 @@ import { APIGatewayProxyHandler } from "aws-lambda";
 import { middyfy } from "@libs/lambda";
 import { products } from "src/models/data";
 
-const getProductById: APIGatewayProxyHandler = async (event) => {
+export const getProductById: APIGatewayProxyHandler = async (event) => {
 	const { id } = event.pathParameters;
 	const product = products.find((p) => p.id === id);
 
@@ -12,8 +12,9 @@ const getProductById: APIGatewayProxyHandler = async (event) => {
 		return {
 			statusCode: 404,
 			headers: {
-				"Access-Control-Allow-Origin": "*",
 				"Access-Control-Allow-Credentials": true,
+				"Access-Control-Allow-Origin": "*",
+				"Access-Control-Allow-Headers": "*",
 			},
 			body: JSON.stringify({ message: "Product not found" }),
 		};
@@ -21,8 +22,9 @@ const getProductById: APIGatewayProxyHandler = async (event) => {
 	return {
 		statusCode: 200,
 		headers: {
-			"Access-Control-Allow-Origin": "*",
 			"Access-Control-Allow-Credentials": true,
+			"Access-Control-Allow-Origin": "*",
+			"Access-Control-Allow-Headers": "*",
 		},
 		body: JSON.stringify(product),
 	};

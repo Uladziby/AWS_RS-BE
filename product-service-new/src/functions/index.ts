@@ -1,5 +1,5 @@
 /** @format */
 
-export { default as getProductList } from "./getProductList";
-export { default as getProductById } from "../functions/getProductById";
-export { default as createProduct } from "../functions/createProduct";
+//export { getProductList } from "./getProductList/handler";
+export { getProductById } from "./getProductById/handler";
+export { createProduct } from "./createProduct/createProduct";
