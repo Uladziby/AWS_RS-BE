@@ -52,38 +52,3 @@ export const fillDb = async () => {
 };
 
 fillDb();
-
-/* 
-const scan = async () => {
-	const command = new ScanCommand({
-		TableName: process.env.TABLE_NAME,
-	});
-	const scanResults = await dbClient.send(command);
-	return scanResults;
-};
-
-const query = async (id) => {
-	try {
-		const command = new QueryCommand({
-			TableName: process.env.TABLE_NAME,
-			KeyConditionExpression: "id = :id",
-			ExpressionAttributeValues: { ":id": { S: id } }, // Assuming 'id' is a string; adjust accordingly
-		});
-		const queryResults = await dbClient.send(command);
-		return queryResults;
-	} catch (error) {
-		console.error("Error in query:", error);
-		throw error; // Re-throw the error to be caught by the calling function
-	}
-};
-
-export const handler = async (event) => {
-	const scanResults = await scan();
-
-	const queryResults = await query("7567ec4b-b10c-45c5-9345-fc73c48a80a6");
-
-	console.log("scanResults", scanResults);
-	console.log("queryResults", queryResults);
-
-	return { scanResults, queryResults };
-}; */

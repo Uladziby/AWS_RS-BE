@@ -5,7 +5,7 @@ import { DynamoDBDocumentClient, TransactWriteCommand } from "@aws-sdk/lib-dynam
 import { v4 as uuidv4 } from "uuid";
 import { INewProduct } from "./type";
 
-const client = new DynamoDBClient({});
+const client = new DynamoDBClient({ region: "eu-west-1" });
 const document = DynamoDBDocumentClient.from(client);
 
 export const createProduct = async (data: INewProduct) => {

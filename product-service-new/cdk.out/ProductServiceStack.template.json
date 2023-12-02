@@ -1,6 +1,6 @@
 {
  "Resources": {
-  "CreateProductServiceRoleF684A142": {
+  "createProductHandlerServiceRoleDB41434E": {
    "Type": "AWS::IAM::Role",
    "Properties": {
     "AssumeRolePolicyDocument": {
@@ -31,17 +31,17 @@
     ]
    },
    "Metadata": {
-    "aws:cdk:path": "ProductServiceStack/CreateProduct/ServiceRole/Resource"
+    "aws:cdk:path": "ProductServiceStack/createProductHandler/ServiceRole/Resource"
    }
   },
-  "CreateProductD05B97E4": {
+  "createProductHandler0ABAE4AF": {
    "Type": "AWS::Lambda::Function",
    "Properties": {
     "Code": {
      "S3Bucket": {
       "Fn::Sub": "cdk-hnb659fds-assets-${AWS::AccountId}-eu-west-1"
      },
-     "S3Key": "6655cdc343d069d0ef2d864a07366dee9d7798985750df1b608861378037ea76.zip"
+     "S3Key": "cdbffa20fa67600f3e22725d632c5736202f3c020254782ef38ed9c4d9342d78.zip"
     },
     "Environment": {
      "Variables": {
@@ -55,23 +55,23 @@
     "Handler": "index.handler",
     "Role": {
      "Fn::GetAtt": [
-      "CreateProductServiceRoleF684A142",
+      "createProductHandlerServiceRoleDB41434E",
       "Arn"
      ]
     },
     "Runtime": "nodejs20.x"
    },
    "DependsOn": [
-    "CreateProductServiceRoleF684A142"
+    "createProductHandlerServiceRoleDB41434E"
    ],
    "Metadata": {
-    "aws:cdk:path": "ProductServiceStack/CreateProduct/Resource",
-    "aws:asset:path": "asset.6655cdc343d069d0ef2d864a07366dee9d7798985750df1b608861378037ea76",
+    "aws:cdk:path": "ProductServiceStack/createProductHandler/Resource",
+    "aws:asset:path": "asset.cdbffa20fa67600f3e22725d632c5736202f3c020254782ef38ed9c4d9342d78",
     "aws:asset:is-bundled": true,
     "aws:asset:property": "Code"
    }
   },
-  "getProductListServiceRole3691D460": {
+  "getProductListHandlerServiceRoleD34DE37C": {
    "Type": "AWS::IAM::Role",
    "Properties": {
     "AssumeRolePolicyDocument": {
@@ -102,17 +102,17 @@
     ]
    },
    "Metadata": {
-    "aws:cdk:path": "ProductServiceStack/getProductList/ServiceRole/Resource"
+    "aws:cdk:path": "ProductServiceStack/getProductListHandler/ServiceRole/Resource"
    }
   },
-  "getProductListAF616EBD": {
+  "getProductListHandlerA63D7E0F": {
    "Type": "AWS::Lambda::Function",
    "Properties": {
     "Code": {
      "S3Bucket": {
       "Fn::Sub": "cdk-hnb659fds-assets-${AWS::AccountId}-eu-west-1"
      },
-     "S3Key": "02463a5b3b57b8403d365488941a15c0577861dbdec119b0d33ccff6073e315c.zip"
+     "S3Key": "f679cee18dd21b67e07e2bcce7db686f0395bf5dc5d088d0a8643a3129d594f3.zip"
     },
     "Environment": {
      "Variables": {
@@ -126,18 +126,18 @@
     "Handler": "index.handler",
     "Role": {
      "Fn::GetAtt": [
-      "getProductListServiceRole3691D460",
+      "getProductListHandlerServiceRoleD34DE37C",
       "Arn"
      ]
     },
     "Runtime": "nodejs20.x"
    },
    "DependsOn": [
-    "getProductListServiceRole3691D460"
+    "getProductListHandlerServiceRoleD34DE37C"
    ],
    "Metadata": {
-    "aws:cdk:path": "ProductServiceStack/getProductList/Resource",
-    "aws:asset:path": "asset.02463a5b3b57b8403d365488941a15c0577861dbdec119b0d33ccff6073e315c",
+    "aws:cdk:path": "ProductServiceStack/getProductListHandler/Resource",
+    "aws:asset:path": "asset.f679cee18dd21b67e07e2bcce7db686f0395bf5dc5d088d0a8643a3129d594f3",
     "aws:asset:is-bundled": true,
     "aws:asset:property": "Code"
    }
@@ -183,7 +183,7 @@
      "S3Bucket": {
       "Fn::Sub": "cdk-hnb659fds-assets-${AWS::AccountId}-eu-west-1"
      },
-     "S3Key": "29dbb870b9b8c744509c8b1458586342e02c0b6904a0d93e571cba42a063b469.zip"
+     "S3Key": "e7d5c2ec8b12c8c77ffa719df629f679996f2e401383ecdf00aef1276349c0ad.zip"
     },
     "Environment": {
      "Variables": {
@@ -208,7 +208,7 @@
    ],
    "Metadata": {
     "aws:cdk:path": "ProductServiceStack/getProductById/Resource",
-    "aws:asset:path": "asset.29dbb870b9b8c744509c8b1458586342e02c0b6904a0d93e571cba42a063b469",
+    "aws:asset:path": "asset.e7d5c2ec8b12c8c77ffa719df629f679996f2e401383ecdf00aef1276349c0ad",
     "aws:asset:is-bundled": true,
     "aws:asset:property": "Code"
    }
@@ -222,7 +222,7 @@
     "aws:cdk:path": "ProductServiceStack/ProductApi/Resource"
    }
   },
-  "ProductApiDeploymentAB5FBC631e2580bde7619831626985f2a391e248": {
+  "ProductApiDeploymentAB5FBC63d83029e0a4f0166facdf4d84f55e7ca0": {
    "Type": "AWS::ApiGateway::Deployment",
    "Properties": {
     "Description": "Automatically created by the RestApi construct",
@@ -248,7 +248,7 @@
    "Type": "AWS::ApiGateway::Stage",
    "Properties": {
     "DeploymentId": {
-     "Ref": "ProductApiDeploymentAB5FBC631e2580bde7619831626985f2a391e248"
+     "Ref": "ProductApiDeploymentAB5FBC63d83029e0a4f0166facdf4d84f55e7ca0"
     },
     "RestApiId": {
      "Ref": "ProductApi63AD160A"
@@ -269,7 +269,7 @@
      "IntegrationResponses": [
       {
        "ResponseParameters": {
-        "method.response.header.Access-Control-Allow-Headers": "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token,X-Amz-User-Agent'",
+        "method.response.header.Access-Control-Allow-Headers": "'*'",
         "method.response.header.Access-Control-Allow-Origin": "'*'",
         "method.response.header.Access-Control-Allow-Methods": "'OPTIONS,GET,PUT,POST,DELETE,PATCH,HEAD'"
        },
@@ -333,7 +333,7 @@
      "IntegrationResponses": [
       {
        "ResponseParameters": {
-        "method.response.header.Access-Control-Allow-Headers": "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token,X-Amz-User-Agent'",
+        "method.response.header.Access-Control-Allow-Headers": "'*'",
         "method.response.header.Access-Control-Allow-Origin": "'*'",
         "method.response.header.Access-Control-Allow-Methods": "'OPTIONS,GET,PUT,POST,DELETE,PATCH,HEAD'"
        },
@@ -391,7 +391,7 @@
      "IntegrationResponses": [
       {
        "ResponseParameters": {
-        "method.response.header.Access-Control-Allow-Headers": "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token,X-Amz-User-Agent'",
+        "method.response.header.Access-Control-Allow-Headers": "'*'",
         "method.response.header.Access-Control-Allow-Origin": "'*'",
         "method.response.header.Access-Control-Allow-Methods": "'OPTIONS,GET,PUT,POST,DELETE,PATCH,HEAD'"
        },
@@ -533,7 +533,7 @@
     "Action": "lambda:InvokeFunction",
     "FunctionName": {
      "Fn::GetAtt": [
-      "CreateProductD05B97E4",
+      "createProductHandler0ABAE4AF",
       "Arn"
      ]
     },
@@ -569,7 +569,7 @@
     "Action": "lambda:InvokeFunction",
     "FunctionName": {
      "Fn::GetAtt": [
-      "CreateProductD05B97E4",
+      "createProductHandler0ABAE4AF",
       "Arn"
      ]
     },
@@ -610,7 +610,7 @@
         "arn:aws:apigateway:eu-west-1:lambda:path/2015-03-31/functions/",
         {
          "Fn::GetAtt": [
-          "CreateProductD05B97E4",
+          "createProductHandler0ABAE4AF",
           "Arn"
          ]
         },
@@ -636,7 +636,7 @@
     "Action": "lambda:InvokeFunction",
     "FunctionName": {
      "Fn::GetAtt": [
-      "getProductListAF616EBD",
+      "getProductListHandlerA63D7E0F",
       "Arn"
      ]
     },
@@ -672,7 +672,7 @@
     "Action": "lambda:InvokeFunction",
     "FunctionName": {
      "Fn::GetAtt": [
-      "getProductListAF616EBD",
+      "getProductListHandlerA63D7E0F",
       "Arn"
      ]
     },
@@ -713,7 +713,7 @@
         "arn:aws:apigateway:eu-west-1:lambda:path/2015-03-31/functions/",
         {
          "Fn::GetAtt": [
-          "getProductListAF616EBD",
+          "getProductListHandlerA63D7E0F",
           "Arn"
          ]
         },

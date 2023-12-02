@@ -4,7 +4,6 @@ import * as cdk from "aws-cdk-lib/core";
 import * as lambda from "aws-cdk-lib/aws-lambda";
 import * as dotenv from "dotenv";
 import * as apiGateway from "aws-cdk-lib/aws-apigateway";
-import { resolve } from "path";
 import { NodejsFunction, NodejsFunctionProps } from "aws-cdk-lib/aws-lambda-nodejs";
 import * as path from "path";
 
@@ -27,13 +26,13 @@ const sharedLambdaProps: Partial<NodejsFunctionProps> = {
 	},
 };
 
-const createProduct = new NodejsFunction(stack, "CreateProduct", {
+const createProduct = new NodejsFunction(stack, "createProductHandler", {
 	...sharedLambdaProps,
 	functionName: "createProduct",
-	entry: resolve("src/functions/createProduct/handler.ts"),
+	entry: path.join(__dirname, "src", "functions", "createProduct", "handler.ts"),
 });
 
-const getProductList = new NodejsFunction(stack, "getProductList", {
+const getProductList = new NodejsFunction(stack, "getProductListHandler", {
 	...sharedLambdaProps,
 	functionName: "getProductList",
 	entry: path.join(__dirname, "src", "functions", "getProductList", "handler.ts"),
@@ -42,13 +41,13 @@ const getProductList = new NodejsFunction(stack, "getProductList", {
 const getProductById = new NodejsFunction(stack, "getProductById", {
 	...sharedLambdaProps,
 	functionName: "getProductById",
-	entry: resolve("src/functions/getProductById/handler.ts"),
+	entry: path.join(__dirname, "src", "functions", "getProductById", "handler.ts"),
 });
 
 const api = new apiGateway.RestApi(stack, "ProductApi", {
 	defaultCorsPreflightOptions: {
-		allowOrigins: ["*"],
-		allowHeaders: apiGateway.Cors.DEFAULT_HEADERS,
+		allowHeaders: ["*"],
+		allowOrigins: apiGateway.Cors.ALL_ORIGINS,
 		allowMethods: apiGateway.Cors.ALL_METHODS,
 	},
 });

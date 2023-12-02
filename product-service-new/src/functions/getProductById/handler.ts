@@ -1,33 +1,32 @@
 /** @format */
-
+import { buildResponse } from "@libs/buildResponse";
 import { APIGatewayProxyHandler } from "aws-lambda";
-import { middyfy } from "@libs/lambda";
-import { products } from "src/models/data";
+import * as AWS from "aws-sdk";
 
-export const getProductById: APIGatewayProxyHandler = async (event) => {
-	const { id } = event.pathParameters;
-	const product = products.find((p) => p.id === id);
+const db = new AWS.DynamoDB.DocumentClient();
 
-	if (!product) {
-		return {
-			statusCode: 404,
-			headers: {
-				"Access-Control-Allow-Credentials": true,
-				"Access-Control-Allow-Origin": "*",
-				"Access-Control-Allow-Headers": "*",
-			},
-			body: JSON.stringify({ message: "Product not found" }),
-		};
-	}
-	return {
-		statusCode: 200,
-		headers: {
-			"Access-Control-Allow-Credentials": true,
-			"Access-Control-Allow-Origin": "*",
-			"Access-Control-Allow-Headers": "*",
+export const handler: APIGatewayProxyHandler = async (event) => {
+	const id = event.pathParameters;
+
+	const params = {
+		TableName: "products_table",
+		Key: {
+			id: id,
 		},
-		body: JSON.stringify(product),
 	};
-};
+	console.log("event.pathParameters", event.pathParameters);
 
-export const main = middyfy(getProductById);
+	try {
+		const response = await db.get(params).promise();
+
+		if (response) {
+			return buildResponse(200, response.Item);
+		} else {
+			return buildResponse(404, "Not found");
+		}
+	} catch (err: unknown) {
+		return buildResponse(500, {
+			err,
+		});
+	}
+};

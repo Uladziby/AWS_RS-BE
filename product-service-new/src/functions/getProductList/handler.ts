@@ -1,7 +1,6 @@
 /** @format */
 
 import { APIGatewayProxyHandler } from "aws-lambda";
-import { middyfy } from "@libs/lambda";
 import { DynamoDBDocumentClient, ScanCommand } from "@aws-sdk/lib-dynamodb";
 import { DynamoDBClient } from "@aws-sdk/client-dynamodb";
 import { buildResponse } from "@libs/buildResponse";
@@ -11,11 +10,11 @@ const document = DynamoDBDocumentClient.from(client);
 
 export const handler: APIGatewayProxyHandler = async () => {
 	const scanProducts = new ScanCommand({
-		TableName: "products_table",
+		TableName: process.env.PRODUCTS_TABLE_NAME,
 	});
 
 	const scanStocks = new ScanCommand({
-		TableName: "stock_table",
+		TableName: process.env.STOCKS_TABLE_NAME,
 	});
 
 	const productItems = (await document.send(scanProducts)).Items;
@@ -43,5 +42,3 @@ export const handler: APIGatewayProxyHandler = async () => {
 		body: JSON.stringify(joinedArray),
 	};
 };
-
-//export const main = middyfy(getProductList);

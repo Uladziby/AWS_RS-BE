@@ -1,7 +1,6 @@
 /** @format */
 
 import { APIGatewayProxyEvent, APIGatewayProxyHandler } from "aws-lambda";
-import { middyfy } from "@libs/lambda";
 import { INewProduct } from "./type";
 import { HttpMethod } from "aws-cdk-lib/aws-events";
 import { buildResponse } from "@libs/buildResponse";
@@ -16,16 +15,9 @@ export const handler: APIGatewayProxyHandler = async (event: APIGatewayProxyEven
   `);
 
 	if (!newProduct) {
-		return {
-			statusCode: 404,
-			headers: {
-				"Access-Control-Allow-Credentials": true,
-				"Access-Control-Allow-Origin": "*",
-				"Access-Control-Allow-Headers": "*",
-			},
-			body: JSON.stringify({ message: "Product not found" }),
-		};
+		buildResponse(404, { message: "Product not found" });
 	}
+
 	switch (event.httpMethod) {
 		case HttpMethod.POST: {
 			const product = await createProduct(newProduct);
@@ -39,5 +31,3 @@ export const handler: APIGatewayProxyHandler = async (event: APIGatewayProxyEven
 		}
 	}
 };
-
-export const main = middyfy(handler);

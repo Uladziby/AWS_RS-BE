@@ -18,7 +18,7 @@
         "validateOnSynth": false,
         "assumeRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-deploy-role-${AWS::AccountId}-eu-west-1",
         "cloudFormationExecutionRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-cfn-exec-role-${AWS::AccountId}-eu-west-1",
-        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-eu-west-1/2b647d3c924f44fe6638d5cfcc5ac542760c2df191910d2a808fb4c84ec689dd.json",
+        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-eu-west-1/846c8ab3e0abdc5b61d74227d28846ab0da989c4699d04a772d6604b8bb30979.json",
         "requiresBootstrapStackVersion": 6,
         "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version",
         "additionalDependencies": [
@@ -34,28 +34,28 @@
         "ProductServiceStack.assets"
       ],
       "metadata": {
-        "/ProductServiceStack/CreateProduct/ServiceRole/Resource": [
+        "/ProductServiceStack/createProductHandler/ServiceRole/Resource": [
           {
             "type": "aws:cdk:logicalId",
-            "data": "CreateProductServiceRoleF684A142"
+            "data": "createProductHandlerServiceRoleDB41434E"
           }
         ],
-        "/ProductServiceStack/CreateProduct/Resource": [
+        "/ProductServiceStack/createProductHandler/Resource": [
           {
             "type": "aws:cdk:logicalId",
-            "data": "CreateProductD05B97E4"
+            "data": "createProductHandler0ABAE4AF"
           }
         ],
-        "/ProductServiceStack/getProductList/ServiceRole/Resource": [
+        "/ProductServiceStack/getProductListHandler/ServiceRole/Resource": [
           {
             "type": "aws:cdk:logicalId",
-            "data": "getProductListServiceRole3691D460"
+            "data": "getProductListHandlerServiceRoleD34DE37C"
           }
         ],
-        "/ProductServiceStack/getProductList/Resource": [
+        "/ProductServiceStack/getProductListHandler/Resource": [
           {
             "type": "aws:cdk:logicalId",
-            "data": "getProductListAF616EBD"
+            "data": "getProductListHandlerA63D7E0F"
           }
         ],
         "/ProductServiceStack/getProductById/ServiceRole/Resource": [
@@ -79,7 +79,7 @@
         "/ProductServiceStack/ProductApi/Deployment/Resource": [
           {
             "type": "aws:cdk:logicalId",
-            "data": "ProductApiDeploymentAB5FBC631e2580bde7619831626985f2a391e248"
+            "data": "ProductApiDeploymentAB5FBC63d83029e0a4f0166facdf4d84f55e7ca0"
           }
         ],
         "/ProductServiceStack/ProductApi/DeploymentStage.prod/Resource": [
