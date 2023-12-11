@@ -29,8 +29,6 @@ export const handler: APIGatewayProxyHandler = async () => {
 		return { ...product, ...counted };
 	});
 
-	console.log(joinedArray);
-
 	return {
 		statusCode: 200,
 		headers: {
