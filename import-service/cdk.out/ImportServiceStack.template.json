@@ -385,7 +385,7 @@
      "S3Bucket": {
       "Fn::Sub": "cdk-hnb659fds-assets-${AWS::AccountId}-eu-west-1"
      },
-     "S3Key": "d6e9f9da82b8aff12b2db63418c29c56aa5b29671529f93604606c3cf2ebd912.zip"
+     "S3Key": "5fd5c797da5d59fffdb280a2db5877a97cf9a6bf206d57fe025892d03d7b9c7d.zip"
     },
     "Environment": {
      "Variables": {
@@ -409,7 +409,7 @@
    ],
    "Metadata": {
     "aws:cdk:path": "ImportServiceStack/importProductsFile/Resource",
-    "aws:asset:path": "asset.d6e9f9da82b8aff12b2db63418c29c56aa5b29671529f93604606c3cf2ebd912",
+    "aws:asset:path": "asset.5fd5c797da5d59fffdb280a2db5877a97cf9a6bf206d57fe025892d03d7b9c7d",
     "aws:asset:is-bundled": true,
     "aws:asset:property": "Code"
    }
@@ -479,7 +479,7 @@
      "S3Bucket": {
       "Fn::Sub": "cdk-hnb659fds-assets-${AWS::AccountId}-eu-west-1"
      },
-     "S3Key": "d6e9f9da82b8aff12b2db63418c29c56aa5b29671529f93604606c3cf2ebd912.zip"
+     "S3Key": "5fd5c797da5d59fffdb280a2db5877a97cf9a6bf206d57fe025892d03d7b9c7d.zip"
     },
     "Environment": {
      "Variables": {
@@ -503,7 +503,7 @@
    ],
    "Metadata": {
     "aws:cdk:path": "ImportServiceStack/importFileParser/Resource",
-    "aws:asset:path": "asset.d6e9f9da82b8aff12b2db63418c29c56aa5b29671529f93604606c3cf2ebd912",
+    "aws:asset:path": "asset.5fd5c797da5d59fffdb280a2db5877a97cf9a6bf206d57fe025892d03d7b9c7d",
     "aws:asset:is-bundled": true,
     "aws:asset:property": "Code"
    }

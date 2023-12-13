@@ -9,10 +9,12 @@ import {
 import { BUCKET_NAME, REGION } from "../../../utils/constatnst";
 import { Readable } from "stream";
 import csv from "csv-parser";
+import { SQSClient } from "@aws-sdk/client-sqs";
 
 export const importFileParser = async (key: string) => {
 	try {
 		const fileName = key.split("/").at(-1);
+
 		const params = {
 			Bucket: BUCKET_NAME,
 			Key: key,
@@ -28,9 +30,12 @@ export const importFileParser = async (key: string) => {
 		const getCommand = new GetObjectCommand(params);
 		const copyCommand = new CopyObjectCommand(destParams);
 		const deleteCommand = new DeleteObjectCommand(params);
-		const client = new S3Client({ region: REGION });
 
-		const { Body: stream } = await client.send(getCommand);
+		const s3client = new S3Client({ region: REGION });
+
+		const sqsClient = new SQSClient({ region: REGION });
+
+		const { Body: stream } = await s3client.send(getCommand);
 
 		if (!stream) {
 			throw new Error("Missing stream");
@@ -47,8 +52,8 @@ export const importFileParser = async (key: string) => {
 					console.log(message);
 
 					try {
-						await client.send(copyCommand);
-						await client.send(deleteCommand);
+						await s3client.send(copyCommand);
+						await s3client.send(deleteCommand);
 
 						return resolve(message);
 					} catch (e) {

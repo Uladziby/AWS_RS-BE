@@ -18,7 +18,7 @@
         "validateOnSynth": false,
         "assumeRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-deploy-role-${AWS::AccountId}-eu-west-1",
         "cloudFormationExecutionRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-cfn-exec-role-${AWS::AccountId}-eu-west-1",
-        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-eu-west-1/846c8ab3e0abdc5b61d74227d28846ab0da989c4699d04a772d6604b8bb30979.json",
+        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-eu-west-1/c972672787ab2dd276f767160fc43a890b092105041e484b2949f993c5a3025a.json",
         "requiresBootstrapStackVersion": 6,
         "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version",
         "additionalDependencies": [
@@ -34,6 +34,24 @@
         "ProductServiceStack.assets"
       ],
       "metadata": {
+        "/ProductServiceStack/catalogItemsQueue/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "catalogItemsQueue79451959"
+          }
+        ],
+        "/ProductServiceStack/ImportProductTopic/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ImportProductTopic40F4C570"
+          }
+        ],
+        "/ProductServiceStack/ImportProductSubscription/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ImportProductSubscription01408492"
+          }
+        ],
         "/ProductServiceStack/createProductHandler/ServiceRole/Resource": [
           {
             "type": "aws:cdk:logicalId",
@@ -70,6 +88,30 @@
             "data": "getProductByIdB6983DDD"
           }
         ],
+        "/ProductServiceStack/catalogBatchProcess/ServiceRole/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "catalogBatchProcessServiceRole274D33CD"
+          }
+        ],
+        "/ProductServiceStack/catalogBatchProcess/ServiceRole/DefaultPolicy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "catalogBatchProcessServiceRoleDefaultPolicy8FC58026"
+          }
+        ],
+        "/ProductServiceStack/catalogBatchProcess/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "catalogBatchProcessDC6613DA"
+          }
+        ],
+        "/ProductServiceStack/catalogBatchProcess/SqsEventSource:ProductServiceStackcatalogItemsQueue1DF43E6A/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "catalogBatchProcessSqsEventSourceProductServiceStackcatalogItemsQueue1DF43E6A4EBBBC9C"
+          }
+        ],
         "/ProductServiceStack/ProductApi/Resource": [
           {
             "type": "aws:cdk:logicalId",
@@ -79,7 +121,7 @@
         "/ProductServiceStack/ProductApi/Deployment/Resource": [
           {
             "type": "aws:cdk:logicalId",
-            "data": "ProductApiDeploymentAB5FBC63d83029e0a4f0166facdf4d84f55e7ca0"
+            "data": "ProductApiDeploymentAB5FBC63aed90af54dd9b47ea862055e0d80ead2"
           }
         ],
         "/ProductServiceStack/ProductApi/DeploymentStage.prod/Resource": [

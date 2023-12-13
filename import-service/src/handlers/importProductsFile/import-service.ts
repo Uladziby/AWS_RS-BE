@@ -9,24 +9,19 @@ export const importService = async (fileName: string) => {
 	const params = {
 		Bucket: process.env.BUCKET_NAME,
 		Key: key,
-		ContentType: "image/jpg",
+		ContentType: "text/csv",
 	};
 
-	const client = new S3Client({ region: process.env.REGION });
 	const command = new PutObjectCommand(params);
-	const signedUrl = await getSignedUrl(client, command, { expiresIn: 60 });
-
-	//const s3 = new S3({ region: process.env.REGION });
+	const client = new S3Client({ region: process.env.REGION });
 
 	try {
-		/* 	client.send(command).then((__) => {
-			return getSignedUrl(client, command).then((url) => url);
-		}); */
-		/* const s3Response = await s3.listObjectsV2(params);
-		importedFiles = s3Response.Contents;
-		return importedFiles?.map((file) => `http://${BUCKET}.s3.amazonaws.com/${file.Key}`); */
-	} catch (error) {
-		console.error(error, "error");
-		return error;
+		client.send(command).then((__) => {
+			return getSignedUrl(client, command, { expiresIn: 60 })
+				.then((url) => url)
+				.catch((err) => err);
+		});
+	} catch (err: unknown) {
+		return err;
 	}
 };

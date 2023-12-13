@@ -8,12 +8,14 @@ export const handler: APIGatewayProxyHandler = async (event: APIGatewayProxyEven
 	try {
 		const fileName = event.queryStringParameters?.name;
 
-		const response = await importService(fileName!);
+		console.log(event, "handler importProductsFile");
 
-		if (response) {
-			return buildResponse(200, response);
+		const signedUrl = await importService(fileName!);
+
+		if (signedUrl) {
+			return buildResponse(200, signedUrl);
 		} else {
-			return buildResponse(404, "Not found");
+			return buildResponse(404, "Not found file");
 		}
 	} catch (err: unknown) {
 		return buildResponse(500, {

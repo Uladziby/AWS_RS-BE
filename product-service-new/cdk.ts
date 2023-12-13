@@ -3,9 +3,12 @@
 import * as cdk from "aws-cdk-lib/core";
 import * as lambda from "aws-cdk-lib/aws-lambda";
 import * as dotenv from "dotenv";
-import * as apiGateway from "aws-cdk-lib/aws-apigateway";
+import { Cors, RestApi, LambdaIntegration } from "aws-cdk-lib/aws-apigateway";
 import { NodejsFunction, NodejsFunctionProps } from "aws-cdk-lib/aws-lambda-nodejs";
+import { Topic, Subscription, SubscriptionProtocol } from "aws-cdk-lib/aws-sns";
 import * as path from "path";
+import { Queue } from "aws-cdk-lib/aws-sqs";
+import { SqsEventSource } from "aws-cdk-lib/aws-lambda-event-sources";
 
 dotenv.config();
 
@@ -17,12 +20,28 @@ const stack = new cdk.Stack(app, "ProductServiceStack", {
 	},
 });
 
+//create queue
+
+const catalogItemsQueue = new Queue(stack, "catalogItemsQueue", {
+	queueName: "catalogItemsQueue",
+});
+
+//create sns topic
+const importProductTopic = new Topic(stack, "ImportProductTopic");
+
+new Subscription(stack, "ImportProductSubscription", {
+	topic: importProductTopic,
+	protocol: SubscriptionProtocol.EMAIL,
+	endpoint: process.env.TOPIC_EMAIL,
+});
+
 const sharedLambdaProps: Partial<NodejsFunctionProps> = {
 	runtime: lambda.Runtime.NODEJS_20_X,
 	environment: {
 		PRODUCT_AWS_REGION: process.env.PRODUCT_AWS_REGION,
 		PRODUCTS_TABLE_NAME: "products_table",
 		STOCKS_TABLE_NAME: "stock_table",
+		IMPORT_PRODUCT_TOPIC_ARN: importProductTopic.topicArn,
 	},
 };
 
@@ -44,11 +63,20 @@ const getProductById = new NodejsFunction(stack, "getProductById", {
 	entry: path.join(__dirname, "src", "functions", "getProductById", "handler.ts"),
 });
 
-const api = new apiGateway.RestApi(stack, "ProductApi", {
+const catalogBatchProcess = new NodejsFunction(stack, "catalogBatchProcess", {
+	...sharedLambdaProps,
+	functionName: "catalogBatchProcess",
+	entry: path.join(__dirname, "src", "functions", "catalogBatchProcess", "handler.ts"),
+});
+
+importProductTopic.grantPublish(catalogBatchProcess);
+catalogBatchProcess.addEventSource(new SqsEventSource(catalogItemsQueue, { batchSize: 5 }));
+
+const api = new RestApi(stack, "ProductApi", {
 	defaultCorsPreflightOptions: {
-		allowHeaders: ["*"],
-		allowOrigins: apiGateway.Cors.ALL_ORIGINS,
-		allowMethods: apiGateway.Cors.ALL_METHODS,
+		allowOrigins: Cors.ALL_ORIGINS,
+		allowHeaders: Cors.DEFAULT_HEADERS,
+		allowMethods: Cors.ALL_METHODS,
 	},
 });
 
@@ -56,13 +84,13 @@ const products = api.root.addResource("products");
 const product = products.addResource("{productId}");
 
 //get list
-const getProductListIntegration = new apiGateway.LambdaIntegration(getProductList);
+const getProductListIntegration = new LambdaIntegration(getProductList);
 
 //get item by id
-const getProductByIdIntegration = new apiGateway.LambdaIntegration(getProductById);
+const getProductByIdIntegration = new LambdaIntegration(getProductById);
 
 //create a new product
-const createProductIntegration = new apiGateway.LambdaIntegration(createProduct);
+const createProductIntegration = new LambdaIntegration(createProduct);
 
 products.addMethod("POST", createProductIntegration);
 products.addMethod("GET", getProductListIntegration);

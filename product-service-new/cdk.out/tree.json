@@ -8,6 +8,80 @@
         "id": "ProductServiceStack",
         "path": "ProductServiceStack",
         "children": {
+          "catalogItemsQueue": {
+            "id": "catalogItemsQueue",
+            "path": "ProductServiceStack/catalogItemsQueue",
+            "children": {
+              "Resource": {
+                "id": "Resource",
+                "path": "ProductServiceStack/catalogItemsQueue/Resource",
+                "attributes": {
+                  "aws:cdk:cloudformation:type": "AWS::SQS::Queue",
+                  "aws:cdk:cloudformation:props": {
+                    "queueName": "catalogItemsQueue"
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_sqs.CfnQueue",
+                  "version": "2.110.1"
+                }
+              }
+            },
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.aws_sqs.Queue",
+              "version": "2.110.1"
+            }
+          },
+          "ImportProductTopic": {
+            "id": "ImportProductTopic",
+            "path": "ProductServiceStack/ImportProductTopic",
+            "children": {
+              "Resource": {
+                "id": "Resource",
+                "path": "ProductServiceStack/ImportProductTopic/Resource",
+                "attributes": {
+                  "aws:cdk:cloudformation:type": "AWS::SNS::Topic",
+                  "aws:cdk:cloudformation:props": {}
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_sns.CfnTopic",
+                  "version": "2.110.1"
+                }
+              }
+            },
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.aws_sns.Topic",
+              "version": "2.110.1"
+            }
+          },
+          "ImportProductSubscription": {
+            "id": "ImportProductSubscription",
+            "path": "ProductServiceStack/ImportProductSubscription",
+            "children": {
+              "Resource": {
+                "id": "Resource",
+                "path": "ProductServiceStack/ImportProductSubscription/Resource",
+                "attributes": {
+                  "aws:cdk:cloudformation:type": "AWS::SNS::Subscription",
+                  "aws:cdk:cloudformation:props": {
+                    "endpoint": "yanushevskyv@gmail.com",
+                    "protocol": "email",
+                    "topicArn": {
+                      "Ref": "ImportProductTopic40F4C570"
+                    }
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_sns.CfnSubscription",
+                  "version": "2.110.1"
+                }
+              }
+            },
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.aws_sns.Subscription",
+              "version": "2.110.1"
+            }
+          },
           "createProductHandler": {
             "id": "createProductHandler",
             "path": "ProductServiceStack/createProductHandler",
@@ -105,13 +179,16 @@
                       "s3Bucket": {
                         "Fn::Sub": "cdk-hnb659fds-assets-${AWS::AccountId}-eu-west-1"
                       },
-                      "s3Key": "cdbffa20fa67600f3e22725d632c5736202f3c020254782ef38ed9c4d9342d78.zip"
+                      "s3Key": "87f89792e679d7cfa773e5c278015ee2faab86dec7653b5d2003f9fd61b8e450.zip"
                     },
                     "environment": {
                       "variables": {
                         "PRODUCT_AWS_REGION": "eu-west-1",
                         "PRODUCTS_TABLE_NAME": "products_table",
                         "STOCKS_TABLE_NAME": "stock_table",
+                        "IMPORT_PRODUCT_TOPIC_ARN": {
+                          "Ref": "ImportProductTopic40F4C570"
+                        },
                         "AWS_NODEJS_CONNECTION_REUSE_ENABLED": "1"
                       }
                     },
@@ -234,13 +311,16 @@
                       "s3Bucket": {
                         "Fn::Sub": "cdk-hnb659fds-assets-${AWS::AccountId}-eu-west-1"
                       },
-                      "s3Key": "f679cee18dd21b67e07e2bcce7db686f0395bf5dc5d088d0a8643a3129d594f3.zip"
+                      "s3Key": "681ef5b8b327c46da586575ed447cf7e1f603cf3ffdc1945f1c5707ed01e0bfb.zip"
                     },
                     "environment": {
                       "variables": {
                         "PRODUCT_AWS_REGION": "eu-west-1",
                         "PRODUCTS_TABLE_NAME": "products_table",
                         "STOCKS_TABLE_NAME": "stock_table",
+                        "IMPORT_PRODUCT_TOPIC_ARN": {
+                          "Ref": "ImportProductTopic40F4C570"
+                        },
                         "AWS_NODEJS_CONNECTION_REUSE_ENABLED": "1"
                       }
                     },
@@ -370,6 +450,9 @@
                         "PRODUCT_AWS_REGION": "eu-west-1",
                         "PRODUCTS_TABLE_NAME": "products_table",
                         "STOCKS_TABLE_NAME": "stock_table",
+                        "IMPORT_PRODUCT_TOPIC_ARN": {
+                          "Ref": "ImportProductTopic40F4C570"
+                        },
                         "AWS_NODEJS_CONNECTION_REUSE_ENABLED": "1"
                       }
                     },
@@ -386,6 +469,228 @@
                 },
                 "constructInfo": {
                   "fqn": "aws-cdk-lib.aws_lambda.CfnFunction",
+                  "version": "2.110.1"
+                }
+              }
+            },
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.aws_lambda_nodejs.NodejsFunction",
+              "version": "2.110.1"
+            }
+          },
+          "catalogBatchProcess": {
+            "id": "catalogBatchProcess",
+            "path": "ProductServiceStack/catalogBatchProcess",
+            "children": {
+              "ServiceRole": {
+                "id": "ServiceRole",
+                "path": "ProductServiceStack/catalogBatchProcess/ServiceRole",
+                "children": {
+                  "ImportServiceRole": {
+                    "id": "ImportServiceRole",
+                    "path": "ProductServiceStack/catalogBatchProcess/ServiceRole/ImportServiceRole",
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.Resource",
+                      "version": "2.110.1"
+                    }
+                  },
+                  "Resource": {
+                    "id": "Resource",
+                    "path": "ProductServiceStack/catalogBatchProcess/ServiceRole/Resource",
+                    "attributes": {
+                      "aws:cdk:cloudformation:type": "AWS::IAM::Role",
+                      "aws:cdk:cloudformation:props": {
+                        "assumeRolePolicyDocument": {
+                          "Statement": [
+                            {
+                              "Action": "sts:AssumeRole",
+                              "Effect": "Allow",
+                              "Principal": {
+                                "Service": "lambda.amazonaws.com"
+                              }
+                            }
+                          ],
+                          "Version": "2012-10-17"
+                        },
+                        "managedPolicyArns": [
+                          {
+                            "Fn::Join": [
+                              "",
+                              [
+                                "arn:",
+                                {
+                                  "Ref": "AWS::Partition"
+                                },
+                                ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+                              ]
+                            ]
+                          }
+                        ]
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_iam.CfnRole",
+                      "version": "2.110.1"
+                    }
+                  },
+                  "DefaultPolicy": {
+                    "id": "DefaultPolicy",
+                    "path": "ProductServiceStack/catalogBatchProcess/ServiceRole/DefaultPolicy",
+                    "children": {
+                      "Resource": {
+                        "id": "Resource",
+                        "path": "ProductServiceStack/catalogBatchProcess/ServiceRole/DefaultPolicy/Resource",
+                        "attributes": {
+                          "aws:cdk:cloudformation:type": "AWS::IAM::Policy",
+                          "aws:cdk:cloudformation:props": {
+                            "policyDocument": {
+                              "Statement": [
+                                {
+                                  "Action": "sns:Publish",
+                                  "Effect": "Allow",
+                                  "Resource": {
+                                    "Ref": "ImportProductTopic40F4C570"
+                                  }
+                                },
+                                {
+                                  "Action": [
+                                    "sqs:ChangeMessageVisibility",
+                                    "sqs:DeleteMessage",
+                                    "sqs:GetQueueAttributes",
+                                    "sqs:GetQueueUrl",
+                                    "sqs:ReceiveMessage"
+                                  ],
+                                  "Effect": "Allow",
+                                  "Resource": {
+                                    "Fn::GetAtt": [
+                                      "catalogItemsQueue79451959",
+                                      "Arn"
+                                    ]
+                                  }
+                                }
+                              ],
+                              "Version": "2012-10-17"
+                            },
+                            "policyName": "catalogBatchProcessServiceRoleDefaultPolicy8FC58026",
+                            "roles": [
+                              {
+                                "Ref": "catalogBatchProcessServiceRole274D33CD"
+                              }
+                            ]
+                          }
+                        },
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.aws_iam.CfnPolicy",
+                          "version": "2.110.1"
+                        }
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_iam.Policy",
+                      "version": "2.110.1"
+                    }
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_iam.Role",
+                  "version": "2.110.1"
+                }
+              },
+              "Code": {
+                "id": "Code",
+                "path": "ProductServiceStack/catalogBatchProcess/Code",
+                "children": {
+                  "Stage": {
+                    "id": "Stage",
+                    "path": "ProductServiceStack/catalogBatchProcess/Code/Stage",
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.AssetStaging",
+                      "version": "2.110.1"
+                    }
+                  },
+                  "AssetBucket": {
+                    "id": "AssetBucket",
+                    "path": "ProductServiceStack/catalogBatchProcess/Code/AssetBucket",
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_s3.BucketBase",
+                      "version": "2.110.1"
+                    }
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_s3_assets.Asset",
+                  "version": "2.110.1"
+                }
+              },
+              "Resource": {
+                "id": "Resource",
+                "path": "ProductServiceStack/catalogBatchProcess/Resource",
+                "attributes": {
+                  "aws:cdk:cloudformation:type": "AWS::Lambda::Function",
+                  "aws:cdk:cloudformation:props": {
+                    "code": {
+                      "s3Bucket": {
+                        "Fn::Sub": "cdk-hnb659fds-assets-${AWS::AccountId}-eu-west-1"
+                      },
+                      "s3Key": "79491de3e5719bd535bbebbb9db89fd7300416a9d42e704d866c5ba5b254f36a.zip"
+                    },
+                    "environment": {
+                      "variables": {
+                        "PRODUCT_AWS_REGION": "eu-west-1",
+                        "PRODUCTS_TABLE_NAME": "products_table",
+                        "STOCKS_TABLE_NAME": "stock_table",
+                        "IMPORT_PRODUCT_TOPIC_ARN": {
+                          "Ref": "ImportProductTopic40F4C570"
+                        },
+                        "AWS_NODEJS_CONNECTION_REUSE_ENABLED": "1"
+                      }
+                    },
+                    "functionName": "catalogBatchProcess",
+                    "handler": "index.handler",
+                    "role": {
+                      "Fn::GetAtt": [
+                        "catalogBatchProcessServiceRole274D33CD",
+                        "Arn"
+                      ]
+                    },
+                    "runtime": "nodejs20.x"
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_lambda.CfnFunction",
+                  "version": "2.110.1"
+                }
+              },
+              "SqsEventSource:ProductServiceStackcatalogItemsQueue1DF43E6A": {
+                "id": "SqsEventSource:ProductServiceStackcatalogItemsQueue1DF43E6A",
+                "path": "ProductServiceStack/catalogBatchProcess/SqsEventSource:ProductServiceStackcatalogItemsQueue1DF43E6A",
+                "children": {
+                  "Resource": {
+                    "id": "Resource",
+                    "path": "ProductServiceStack/catalogBatchProcess/SqsEventSource:ProductServiceStackcatalogItemsQueue1DF43E6A/Resource",
+                    "attributes": {
+                      "aws:cdk:cloudformation:type": "AWS::Lambda::EventSourceMapping",
+                      "aws:cdk:cloudformation:props": {
+                        "batchSize": 5,
+                        "eventSourceArn": {
+                          "Fn::GetAtt": [
+                            "catalogItemsQueue79451959",
+                            "Arn"
+                          ]
+                        },
+                        "functionName": {
+                          "Ref": "catalogBatchProcessDC6613DA"
+                        }
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_lambda.CfnEventSourceMapping",
+                      "version": "2.110.1"
+                    }
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_lambda.EventSourceMapping",
                   "version": "2.110.1"
                 }
               }
@@ -451,7 +756,7 @@
                       "aws:cdk:cloudformation:type": "AWS::ApiGateway::Stage",
                       "aws:cdk:cloudformation:props": {
                         "deploymentId": {
-                          "Ref": "ProductApiDeploymentAB5FBC63d83029e0a4f0166facdf4d84f55e7ca0"
+                          "Ref": "ProductApiDeploymentAB5FBC63aed90af54dd9b47ea862055e0d80ead2"
                         },
                         "restApiId": {
                           "Ref": "ProductApi63AD160A"
@@ -504,7 +809,7 @@
                                 {
                                   "statusCode": "204",
                                   "responseParameters": {
-                                    "method.response.header.Access-Control-Allow-Headers": "'*'",
+                                    "method.response.header.Access-Control-Allow-Headers": "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token,X-Amz-User-Agent'",
                                     "method.response.header.Access-Control-Allow-Origin": "'*'",
                                     "method.response.header.Access-Control-Allow-Methods": "'OPTIONS,GET,PUT,POST,DELETE,PATCH,HEAD'"
                                   }
@@ -592,7 +897,7 @@
                                     {
                                       "statusCode": "204",
                                       "responseParameters": {
-                                        "method.response.header.Access-Control-Allow-Headers": "'*'",
+                                        "method.response.header.Access-Control-Allow-Headers": "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token,X-Amz-User-Agent'",
                                         "method.response.header.Access-Control-Allow-Origin": "'*'",
                                         "method.response.header.Access-Control-Allow-Methods": "'OPTIONS,GET,PUT,POST,DELETE,PATCH,HEAD'"
                                       }
@@ -674,7 +979,7 @@
                                         {
                                           "statusCode": "204",
                                           "responseParameters": {
-                                            "method.response.header.Access-Control-Allow-Headers": "'*'",
+                                            "method.response.header.Access-Control-Allow-Headers": "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token,X-Amz-User-Agent'",
                                             "method.response.header.Access-Control-Allow-Origin": "'*'",
                                             "method.response.header.Access-Control-Allow-Methods": "'OPTIONS,GET,PUT,POST,DELETE,PATCH,HEAD'"
                                           }
