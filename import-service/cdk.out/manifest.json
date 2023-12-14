@@ -1,0 +1,191 @@
+{
+  "version": "35.0.0",
+  "artifacts": {
+    "ImportServiceStack.assets": {
+      "type": "cdk:asset-manifest",
+      "properties": {
+        "file": "ImportServiceStack.assets.json",
+        "requiresBootstrapStackVersion": 6,
+        "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version"
+      }
+    },
+    "ImportServiceStack": {
+      "type": "aws:cloudformation:stack",
+      "environment": "aws://unknown-account/eu-west-1",
+      "properties": {
+        "templateFile": "ImportServiceStack.template.json",
+        "terminationProtection": false,
+        "validateOnSynth": false,
+        "assumeRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-deploy-role-${AWS::AccountId}-eu-west-1",
+        "cloudFormationExecutionRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-cfn-exec-role-${AWS::AccountId}-eu-west-1",
+        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-eu-west-1/0789149ceb702f0c7e40caba4de2780143cda81c384e4050c8000e82d37affcb.json",
+        "requiresBootstrapStackVersion": 6,
+        "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version",
+        "additionalDependencies": [
+          "ImportServiceStack.assets"
+        ],
+        "lookupRole": {
+          "arn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-lookup-role-${AWS::AccountId}-eu-west-1",
+          "requiresBootstrapStackVersion": 8,
+          "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version"
+        }
+      },
+      "dependencies": [
+        "ImportServiceStack.assets"
+      ],
+      "metadata": {
+        "/ImportServiceStack/ImportBucket/Notifications/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ImportBucketNotifications556BF97E"
+          }
+        ],
+        "/ImportServiceStack/ImportBucket/AllowBucketNotificationsToImportServiceStackimportFileParserE5BD8A79": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ImportBucketAllowBucketNotificationsToImportServiceStackimportFileParserE5BD8A799D6242C1"
+          }
+        ],
+        "/ImportServiceStack/ImportFilesApi/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ImportFilesApi77451371"
+          }
+        ],
+        "/ImportServiceStack/ImportFilesApi/Deployment/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ImportFilesApiDeploymentF8ADC72Dd38df0318dff40246378da9ab5522f48"
+          }
+        ],
+        "/ImportServiceStack/ImportFilesApi/DeploymentStage.prod/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ImportFilesApiDeploymentStageprodA84485E0"
+          }
+        ],
+        "/ImportServiceStack/ImportFilesApi/Endpoint": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ImportFilesApiEndpointA031B5E2"
+          }
+        ],
+        "/ImportServiceStack/ImportFilesApi/Default/OPTIONS/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ImportFilesApiOPTIONS5B9FE330"
+          }
+        ],
+        "/ImportServiceStack/ImportFilesApi/Default/import/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ImportFilesApiimportAAF803EC"
+          }
+        ],
+        "/ImportServiceStack/ImportFilesApi/Default/import/OPTIONS/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ImportFilesApiimportOPTIONS3E8F8E12"
+          }
+        ],
+        "/ImportServiceStack/ImportFilesApi/Default/import/GET/ApiPermission.ImportServiceStackImportFilesApi11DC8516.GET..import": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ImportFilesApiimportGETApiPermissionImportServiceStackImportFilesApi11DC8516GETimport9B52F921"
+          }
+        ],
+        "/ImportServiceStack/ImportFilesApi/Default/import/GET/ApiPermission.Test.ImportServiceStackImportFilesApi11DC8516.GET..import": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ImportFilesApiimportGETApiPermissionTestImportServiceStackImportFilesApi11DC8516GETimport4411027B"
+          }
+        ],
+        "/ImportServiceStack/ImportFilesApi/Default/import/GET/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ImportFilesApiimportGETF4027F48"
+          }
+        ],
+        "/ImportServiceStack/importProductsFile/ServiceRole/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "importProductsFileServiceRole05E98DF6"
+          }
+        ],
+        "/ImportServiceStack/importProductsFile/ServiceRole/DefaultPolicy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "importProductsFileServiceRoleDefaultPolicy65E41B91"
+          }
+        ],
+        "/ImportServiceStack/importProductsFile/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "importProductsFile45EA58E8"
+          }
+        ],
+        "/ImportServiceStack/importFileParser/ServiceRole/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "importFileParserServiceRole43BE4092"
+          }
+        ],
+        "/ImportServiceStack/importFileParser/ServiceRole/DefaultPolicy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "importFileParserServiceRoleDefaultPolicy030C7279"
+          }
+        ],
+        "/ImportServiceStack/importFileParser/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "importFileParser85B01032"
+          }
+        ],
+        "/ImportServiceStack/BucketNotificationsHandler050a0587b7544547bf325f094a3db834/Role/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "BucketNotificationsHandler050a0587b7544547bf325f094a3db834RoleB6FB88EC"
+          }
+        ],
+        "/ImportServiceStack/BucketNotificationsHandler050a0587b7544547bf325f094a3db834/Role/DefaultPolicy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "BucketNotificationsHandler050a0587b7544547bf325f094a3db834RoleDefaultPolicy2CF63D36"
+          }
+        ],
+        "/ImportServiceStack/BucketNotificationsHandler050a0587b7544547bf325f094a3db834/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "BucketNotificationsHandler050a0587b7544547bf325f094a3db8347ECC3691"
+          }
+        ],
+        "/ImportServiceStack/CDKMetadata/Default": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CDKMetadata"
+          }
+        ],
+        "/ImportServiceStack/BootstrapVersion": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "BootstrapVersion"
+          }
+        ],
+        "/ImportServiceStack/CheckBootstrapVersion": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CheckBootstrapVersion"
+          }
+        ]
+      },
+      "displayName": "ImportServiceStack"
+    },
+    "Tree": {
+      "type": "cdk:tree",
+      "properties": {
+        "file": "tree.json"
+      }
+    }
+  }
+}
