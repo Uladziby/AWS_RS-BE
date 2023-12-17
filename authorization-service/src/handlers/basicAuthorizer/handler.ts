@@ -1,29 +1,41 @@
 /** @format */
 
-import { APIGatewayTokenAuthorizerEvent } from "aws-lambda";
+import { APIGatewayTokenAuthorizerEvent, Callback, Context } from "aws-lambda";
 import { basicAuthorizer } from "./basicAthorizer";
 
-export const handler = async (event: APIGatewayTokenAuthorizerEvent) => {
+export const handler = async (
+	event: APIGatewayTokenAuthorizerEvent,
+	context: Context,
+	callback: Callback
+) => {
 	console.log(JSON.stringify(event), "event");
-	const authorizationToken = event.authorizationToken;
-	console.log(authorizationToken, "authorizationToken");
+	let data;
 	try {
-		if (!authorizationToken) {
-			throw Error("Unauthorized : incorrect token");
-		}
+		const authorizationToken = event.authorizationToken;
 
-		const data = await basicAuthorizer(event);
-		console.log(data, "data");
+		if (authorizationToken) {
+			data = await basicAuthorizer(event);
+		}
 
 		if (data.effect === "Allow") {
-			return generatePolicy("user", event.methodArn, "Allow");
+			callback(null, generatePolicy("user", event.methodArn, "Allow"));
 		} else {
-			return generatePolicy("user", event.methodArn, "Deny");
+			callback(null, generatePolicy("user", event.methodArn, "Deny"));
 		}
-	} catch (err) {
-		console.log(err, "unknwown error");
-		return err.message;
+	} catch (error) {
+		console.error("Error:", error);
+		callback("Unauthorized");
 	}
+	// Construct Lambda proxy response
+	const response = {
+		statusCode: 200,
+		headers: {
+			"Access-Control-Allow-Origin": "*",
+		},
+		body: JSON.stringify(generatePolicy("user", event.methodArn, data.effect)),
+	};
+
+	return response;
 };
 
 const generatePolicy = (principalId, resource, effect = "Allow") => {

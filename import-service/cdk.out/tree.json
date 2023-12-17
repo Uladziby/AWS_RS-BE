@@ -117,7 +117,7 @@
                       "aws:cdk:cloudformation:type": "AWS::ApiGateway::Stage",
                       "aws:cdk:cloudformation:props": {
                         "deploymentId": {
-                          "Ref": "ImportFilesApiDeploymentF8ADC72Dd38df0318dff40246378da9ab5522f48"
+                          "Ref": "ImportFilesApiDeploymentF8ADC72Dd71d921d8ce992f3888715adf821d2d1"
                         },
                         "restApiId": {
                           "Ref": "ImportFilesApi77451371"
@@ -382,7 +382,10 @@
                             "attributes": {
                               "aws:cdk:cloudformation:type": "AWS::ApiGateway::Method",
                               "aws:cdk:cloudformation:props": {
-                                "authorizationType": "NONE",
+                                "authorizationType": "CUSTOM",
+                                "authorizerId": {
+                                  "Ref": "ImportProductsFileAuthorizerF8FC40A1"
+                                },
                                 "httpMethod": "GET",
                                 "integration": {
                                   "type": "AWS_PROXY",
@@ -431,6 +434,68 @@
                 },
                 "constructInfo": {
                   "fqn": "aws-cdk-lib.aws_apigateway.ResourceBase",
+                  "version": "2.113.0"
+                }
+              },
+              "GatewayDeniedResponse": {
+                "id": "GatewayDeniedResponse",
+                "path": "ImportServiceStack/ImportFilesApi/GatewayDeniedResponse",
+                "children": {
+                  "Resource": {
+                    "id": "Resource",
+                    "path": "ImportServiceStack/ImportFilesApi/GatewayDeniedResponse/Resource",
+                    "attributes": {
+                      "aws:cdk:cloudformation:type": "AWS::ApiGateway::GatewayResponse",
+                      "aws:cdk:cloudformation:props": {
+                        "responseParameters": {
+                          "gatewayresponse.header.Access-Control-Allow-Origin": "'*'"
+                        },
+                        "responseType": "ACCESS_DENIED",
+                        "restApiId": {
+                          "Ref": "ImportFilesApi77451371"
+                        },
+                        "statusCode": "403"
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_apigateway.CfnGatewayResponse",
+                      "version": "2.113.0"
+                    }
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_apigateway.GatewayResponse",
+                  "version": "2.113.0"
+                }
+              },
+              "GatewayUnauthorizedResponse": {
+                "id": "GatewayUnauthorizedResponse",
+                "path": "ImportServiceStack/ImportFilesApi/GatewayUnauthorizedResponse",
+                "children": {
+                  "Resource": {
+                    "id": "Resource",
+                    "path": "ImportServiceStack/ImportFilesApi/GatewayUnauthorizedResponse/Resource",
+                    "attributes": {
+                      "aws:cdk:cloudformation:type": "AWS::ApiGateway::GatewayResponse",
+                      "aws:cdk:cloudformation:props": {
+                        "responseParameters": {
+                          "gatewayresponse.header.Access-Control-Allow-Origin": "'*'"
+                        },
+                        "responseType": "UNAUTHORIZED",
+                        "restApiId": {
+                          "Ref": "ImportFilesApi77451371"
+                        },
+                        "statusCode": "401"
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_apigateway.CfnGatewayResponse",
+                      "version": "2.113.0"
+                    }
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_apigateway.GatewayResponse",
                   "version": "2.113.0"
                 }
               }
@@ -783,6 +848,175 @@
             },
             "constructInfo": {
               "fqn": "aws-cdk-lib.aws_lambda_nodejs.NodejsFunction",
+              "version": "2.113.0"
+            }
+          },
+          "ImportProductsFileAuthorizerRole": {
+            "id": "ImportProductsFileAuthorizerRole",
+            "path": "ImportServiceStack/ImportProductsFileAuthorizerRole",
+            "children": {
+              "ImportImportProductsFileAuthorizerRole": {
+                "id": "ImportImportProductsFileAuthorizerRole",
+                "path": "ImportServiceStack/ImportProductsFileAuthorizerRole/ImportImportProductsFileAuthorizerRole",
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.Resource",
+                  "version": "2.113.0"
+                }
+              },
+              "Resource": {
+                "id": "Resource",
+                "path": "ImportServiceStack/ImportProductsFileAuthorizerRole/Resource",
+                "attributes": {
+                  "aws:cdk:cloudformation:type": "AWS::IAM::Role",
+                  "aws:cdk:cloudformation:props": {
+                    "assumeRolePolicyDocument": {
+                      "Statement": [
+                        {
+                          "Action": "sts:AssumeRole",
+                          "Effect": "Allow",
+                          "Principal": {
+                            "Service": "apigateway.amazonaws.com"
+                          }
+                        }
+                      ],
+                      "Version": "2012-10-17"
+                    }
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_iam.CfnRole",
+                  "version": "2.113.0"
+                }
+              },
+              "DefaultPolicy": {
+                "id": "DefaultPolicy",
+                "path": "ImportServiceStack/ImportProductsFileAuthorizerRole/DefaultPolicy",
+                "children": {
+                  "Resource": {
+                    "id": "Resource",
+                    "path": "ImportServiceStack/ImportProductsFileAuthorizerRole/DefaultPolicy/Resource",
+                    "attributes": {
+                      "aws:cdk:cloudformation:type": "AWS::IAM::Policy",
+                      "aws:cdk:cloudformation:props": {
+                        "policyDocument": {
+                          "Statement": [
+                            {
+                              "Action": "lambda:InvokeFunction",
+                              "Effect": "Allow",
+                              "Resource": "arn:aws:lambda:eu-west-1:004819348652:function:basicAuthorizer"
+                            }
+                          ],
+                          "Version": "2012-10-17"
+                        },
+                        "policyName": "ImportProductsFileAuthorizerRoleDefaultPolicy31B37457",
+                        "roles": [
+                          {
+                            "Ref": "ImportProductsFileAuthorizerRole5FF86CD5"
+                          }
+                        ]
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_iam.CfnPolicy",
+                      "version": "2.113.0"
+                    }
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_iam.Policy",
+                  "version": "2.113.0"
+                }
+              }
+            },
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.aws_iam.Role",
+              "version": "2.113.0"
+            }
+          },
+          "BasicAuthorizerLambda": {
+            "id": "BasicAuthorizerLambda",
+            "path": "ImportServiceStack/BasicAuthorizerLambda",
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.aws_lambda.FunctionBase",
+              "version": "2.113.0"
+            }
+          },
+          "ImportProductsFileAuthorizer": {
+            "id": "ImportProductsFileAuthorizer",
+            "path": "ImportServiceStack/ImportProductsFileAuthorizer",
+            "children": {
+              "Resource": {
+                "id": "Resource",
+                "path": "ImportServiceStack/ImportProductsFileAuthorizer/Resource",
+                "attributes": {
+                  "aws:cdk:cloudformation:type": "AWS::ApiGateway::Authorizer",
+                  "aws:cdk:cloudformation:props": {
+                    "authorizerCredentials": {
+                      "Fn::GetAtt": [
+                        "ImportProductsFileAuthorizerRole5FF86CD5",
+                        "Arn"
+                      ]
+                    },
+                    "authorizerResultTtlInSeconds": 300,
+                    "authorizerUri": "arn:aws:apigateway:eu-west-1:lambda:path/2015-03-31/functions/arn:aws:lambda:eu-west-1:004819348652:function:basicAuthorizer/invocations",
+                    "identitySource": "method.request.header.Authorization",
+                    "name": "ImportServiceStackImportProductsFileAuthorizer52313CD9",
+                    "restApiId": {
+                      "Ref": "ImportFilesApi77451371"
+                    },
+                    "type": "TOKEN"
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_apigateway.CfnAuthorizer",
+                  "version": "2.113.0"
+                }
+              },
+              "authorizerInvokePolicy": {
+                "id": "authorizerInvokePolicy",
+                "path": "ImportServiceStack/ImportProductsFileAuthorizer/authorizerInvokePolicy",
+                "children": {
+                  "Resource": {
+                    "id": "Resource",
+                    "path": "ImportServiceStack/ImportProductsFileAuthorizer/authorizerInvokePolicy/Resource",
+                    "attributes": {
+                      "aws:cdk:cloudformation:type": "AWS::IAM::Policy",
+                      "aws:cdk:cloudformation:props": {
+                        "policyDocument": {
+                          "Statement": [
+                            {
+                              "Action": "lambda:InvokeFunction",
+                              "Effect": "Allow",
+                              "Resource": [
+                                "arn:aws:lambda:eu-west-1:004819348652:function:basicAuthorizer",
+                                "arn:aws:lambda:eu-west-1:004819348652:function:basicAuthorizer:*"
+                              ]
+                            }
+                          ],
+                          "Version": "2012-10-17"
+                        },
+                        "policyName": "ImportProductsFileAuthorizerauthorizerInvokePolicy59E3BD41",
+                        "roles": [
+                          {
+                            "Ref": "ImportProductsFileAuthorizerRole5FF86CD5"
+                          }
+                        ]
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_iam.CfnPolicy",
+                      "version": "2.113.0"
+                    }
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_iam.Policy",
+                  "version": "2.113.0"
+                }
+              }
+            },
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.aws_apigateway.TokenAuthorizer",
               "version": "2.113.0"
             }
           },

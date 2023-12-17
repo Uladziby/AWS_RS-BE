@@ -18,7 +18,7 @@
         "validateOnSynth": false,
         "assumeRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-deploy-role-${AWS::AccountId}-eu-west-1",
         "cloudFormationExecutionRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-cfn-exec-role-${AWS::AccountId}-eu-west-1",
-        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-eu-west-1/0789149ceb702f0c7e40caba4de2780143cda81c384e4050c8000e82d37affcb.json",
+        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-eu-west-1/5f75d0a5ad1c46e3effafcb910a822050242a1fa97bc1344293cf236eca3124b.json",
         "requiresBootstrapStackVersion": 6,
         "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version",
         "additionalDependencies": [
@@ -55,7 +55,7 @@
         "/ImportServiceStack/ImportFilesApi/Deployment/Resource": [
           {
             "type": "aws:cdk:logicalId",
-            "data": "ImportFilesApiDeploymentF8ADC72Dd38df0318dff40246378da9ab5522f48"
+            "data": "ImportFilesApiDeploymentF8ADC72Dd71d921d8ce992f3888715adf821d2d1"
           }
         ],
         "/ImportServiceStack/ImportFilesApi/DeploymentStage.prod/Resource": [
@@ -106,6 +106,18 @@
             "data": "ImportFilesApiimportGETF4027F48"
           }
         ],
+        "/ImportServiceStack/ImportFilesApi/GatewayDeniedResponse/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ImportFilesApiGatewayDeniedResponse00BF59F8"
+          }
+        ],
+        "/ImportServiceStack/ImportFilesApi/GatewayUnauthorizedResponse/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ImportFilesApiGatewayUnauthorizedResponse2A40D3DF"
+          }
+        ],
         "/ImportServiceStack/importProductsFile/ServiceRole/Resource": [
           {
             "type": "aws:cdk:logicalId",
@@ -140,6 +152,30 @@
           {
             "type": "aws:cdk:logicalId",
             "data": "importFileParser85B01032"
+          }
+        ],
+        "/ImportServiceStack/ImportProductsFileAuthorizerRole/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ImportProductsFileAuthorizerRole5FF86CD5"
+          }
+        ],
+        "/ImportServiceStack/ImportProductsFileAuthorizerRole/DefaultPolicy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ImportProductsFileAuthorizerRoleDefaultPolicy31B37457"
+          }
+        ],
+        "/ImportServiceStack/ImportProductsFileAuthorizer/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ImportProductsFileAuthorizerF8FC40A1"
+          }
+        ],
+        "/ImportServiceStack/ImportProductsFileAuthorizer/authorizerInvokePolicy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ImportProductsFileAuthorizerauthorizerInvokePolicy59E3BD41"
           }
         ],
         "/ImportServiceStack/BucketNotificationsHandler050a0587b7544547bf325f094a3db834/Role/Resource": [
