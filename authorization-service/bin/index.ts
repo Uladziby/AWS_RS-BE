@@ -43,6 +43,7 @@ const api = new RestApi(stack, "AuthApi", {
 
 const basicAuthorizer = new NodejsFunction(stack, "basicAuthorizer", {
 	...sharedLambdaProps,
+	functionName: "basicAuthorizer",
 	entry: path.join("src", "handlers", "basicAuthorizer", "handler.ts"),
 	environment: {
 		uladziby: process.env.uladziby!,
@@ -56,18 +57,6 @@ const auth = new TokenAuthorizer(stack, "basicTokenAuthorizer", {
 bucket.grantReadWrite(basicAuthorizer);
 
 const token = api.root.addResource("token");
-
-api.addGatewayResponse("GatewayDeniedResponse", {
-	type: ResponseType.ACCESS_DENIED,
-	statusCode: "403",
-	responseHeaders: { "Access-Control-Allow-Origin": "'*'" },
-});
-
-api.addGatewayResponse("GatewayUnauthorizedResponse", {
-	type: ResponseType.UNAUTHORIZED,
-	statusCode: "401",
-	responseHeaders: { "Access-Control-Allow-Origin": "'*'" },
-});
 
 const importProductsFileIntegration = new LambdaIntegration(basicAuthorizer);
 token.addMethod("GET", importProductsFileIntegration, { authorizer: auth });
