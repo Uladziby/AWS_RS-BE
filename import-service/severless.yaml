@@ -1,0 +1,33 @@
+# @format
+
+service: import-service
+provider:
+  name: aws
+  runtime: nodejs20.x
+  stage: dev
+  profile: admin
+
+iamRoleStatements:
+  - Effect: Allow
+    Action:
+      - s3:*
+    Resource: "arn:aws:s3:::${self:custom.bucketName}/*"
+
+functions :
+  importProductsFile:
+    handler: handler.importProductsFile
+    events:
+      - https:
+          method: get
+          path: import
+          cors: true
+  importFileParser:
+    handler: handler.importFileParser
+    events:
+      - s3:
+          bucket: ${self:custom.bucketName}
+          event: s3:ObjectCreated:*
+          rules:
+            - prefix: uploaded/
+            - suffix: .csv
+```
