@@ -4,10 +4,18 @@ import { NodejsFunction, NodejsFunctionProps } from "aws-cdk-lib/aws-lambda-node
 import * as cdk from "aws-cdk-lib/core";
 import * as path from "path";
 import * as dotenv from "dotenv";
-import * as lambda from "aws-cdk-lib/aws-lambda";
-import { RestApi, Cors, LambdaIntegration } from "aws-cdk-lib/aws-apigateway";
+import { Function, Runtime } from "aws-cdk-lib/aws-lambda";
+import {
+	RestApi,
+	Cors,
+	LambdaIntegration,
+	ResponseType,
+	TokenAuthorizer,
+} from "aws-cdk-lib/aws-apigateway";
 import { Bucket, EventType } from "aws-cdk-lib/aws-s3";
 import * as s3notifications from "aws-cdk-lib/aws-s3-notifications";
+import { PolicyStatement, Role, ServicePrincipal } from "aws-cdk-lib/aws-iam";
+import { basicAuthorizerARN } from "../utils/constatnst";
 
 dotenv.config();
 
@@ -22,7 +30,7 @@ const stack = new cdk.Stack(app, "ImportServiceStack", {
 const bucket = Bucket.fromBucketName(stack, "ImportBucket", "import-service-task5");
 
 const sharedLambdaProps: Partial<NodejsFunctionProps> = {
-	runtime: lambda.Runtime.NODEJS_20_X,
+	runtime: Runtime.NODEJS_20_X,
 	environment: {
 		BUCKET_NAME: "import-service-task5",
 	},
@@ -52,7 +60,44 @@ const importFileParser = new NodejsFunction(stack, "importFileParser", {
 
 const importFile = api.root.addResource("import");
 const importProductsFileIntegration = new LambdaIntegration(importProductsFile);
-importFile.addMethod("GET", importProductsFileIntegration);
+
+api.addGatewayResponse("GatewayDeniedResponse", {
+	type: ResponseType.ACCESS_DENIED,
+	statusCode: "403",
+	responseHeaders: { "Access-Control-Allow-Origin": "'*'" },
+});
+
+api.addGatewayResponse("GatewayUnauthorizedResponse", {
+	type: ResponseType.UNAUTHORIZED,
+	statusCode: "401",
+	responseHeaders: { "Access-Control-Allow-Origin": "'*'" },
+});
+
+const authRole = new Role(stack, "ImportProductsFileAuthorizerRole", {
+	assumedBy: new ServicePrincipal("apigateway.amazonaws.com"),
+});
+
+const basicAuthorizerFromFunc = Function.fromFunctionArn(
+	stack,
+	"BasicAuthorizerLambda",
+	basicAuthorizerARN
+);
+
+authRole.addToPolicy(
+	new PolicyStatement({
+		actions: ["lambda:InvokeFunction"],
+		resources: [basicAuthorizerFromFunc.functionArn],
+	})
+);
+
+const importProductsFileAuthorizer = new TokenAuthorizer(stack, "ImportProductsFileAuthorizer", {
+	handler: basicAuthorizerFromFunc,
+	assumeRole: authRole,
+});
+
+importFile.addMethod("GET", importProductsFileIntegration, {
+	authorizer: importProductsFileAuthorizer,
+});
 
 bucket.grantReadWrite(importProductsFile);
 bucket.grantDelete(importFileParser);
